@@ -19,3 +19,4 @@ __pycache__/
 reports_output/
 htmlcov/
 .coverage
+.pytest_cache/

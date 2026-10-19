@@ -1,10 +1,8 @@
 """Тесты для src/reports.py."""
 
 from datetime import datetime
-from pathlib import Path
 
 import pandas as pd
-import pytest
 
 from src.reports import report_decorator, spending_by_category
 
@@ -12,6 +10,7 @@ from src.reports import report_decorator, spending_by_category
 def test_report_decorator_default_filename(tmp_path, monkeypatch):
     """Декоратор без параметра пишет файл в reports_output."""
     import src.reports as reports_module
+
     monkeypatch.setattr(reports_module, "REPORTS_DIR", tmp_path)
 
     @report_decorator
@@ -29,6 +28,7 @@ def test_report_decorator_default_filename(tmp_path, monkeypatch):
 def test_report_decorator_with_filename(tmp_path, monkeypatch):
     """Декоратор с параметром пишет файл с указанным именем."""
     import src.reports as reports_module
+
     monkeypatch.setattr(reports_module, "REPORTS_DIR", tmp_path)
 
     @report_decorator(filename="custom.json")

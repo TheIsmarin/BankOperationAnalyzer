@@ -30,7 +30,15 @@ COLUMN_MAPPING = {
     "Статус": "status",
 }
 
-KEEP_COLUMNS = ["date", "card", "amount", "cashback", "category", "description", "status"]
+KEEP_COLUMNS = [
+    "date",
+    "card",
+    "amount",
+    "cashback",
+    "category",
+    "description",
+    "status",
+]
 
 # Базовые URL APILayer
 CURRENCY_URL = "https://api.apilayer.com/exchangerates_data/latest"
@@ -79,7 +87,9 @@ def load_transactions(file_path: Optional[Path] = None) -> pd.DataFrame:
 
     # Приводим дату к datetime с явным форматом dd.mm.yyyy HH:MM:SS
     if "date" in df.columns and not pd.api.types.is_datetime64_any_dtype(df["date"]):
-        df["date"] = pd.to_datetime(df["date"], format="%d.%m.%Y %H:%M:%S", errors="coerce")
+        df["date"] = pd.to_datetime(
+            df["date"], format="%d.%m.%Y %H:%M:%S", errors="coerce"
+        )
 
     # Оставляем только успешные операции
     if "status" in df.columns:
@@ -106,9 +116,11 @@ def load_user_settings(file_path: Optional[Path] = None) -> dict[str, Any]:
     with open(path, "r", encoding="utf-8") as f:
         settings = json.load(f)
 
-    logger.info("Загружены настройки: валюты=%s, акции=%s",
-                settings.get("user_currencies"),
-                settings.get("user_stocks"))
+    logger.info(
+        "Загружены настройки: валюты=%s, акции=%s",
+        settings.get("user_currencies"),
+        settings.get("user_stocks"),
+    )
     return settings
 
 

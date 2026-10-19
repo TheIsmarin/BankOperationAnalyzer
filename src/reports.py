@@ -42,7 +42,10 @@ def report_decorator(
     func: Optional[Callable[..., pd.DataFrame]] = None,
     *,
     filename: Optional[str] = None,
-) -> Union[Callable[..., pd.DataFrame], Callable[[Callable[..., pd.DataFrame]], Callable[..., pd.DataFrame]]]:
+) -> Union[
+    Callable[..., pd.DataFrame],
+    Callable[[Callable[..., pd.DataFrame]], Callable[..., pd.DataFrame]],
+]:
     """
     Декоратор для функций-отчётов: записывает результат (DataFrame) в JSON-файл.
 
@@ -51,7 +54,9 @@ def report_decorator(
         @report_decorator(filename="out.json") # своё имя файла
     """
 
-    def decorator(inner_func: Callable[..., pd.DataFrame]) -> Callable[..., pd.DataFrame]:
+    def decorator(
+        inner_func: Callable[..., pd.DataFrame]
+    ) -> Callable[..., pd.DataFrame]:
         @wraps(inner_func)
         def wrapper(*args: Any, **kwargs: Any) -> pd.DataFrame:
             result = inner_func(*args, **kwargs)

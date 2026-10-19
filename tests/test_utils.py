@@ -31,7 +31,9 @@ def test_parse_datetime_invalid():
 def test_load_user_settings(tmp_path):
     """Загружает настройки из JSON."""
     settings_file = tmp_path / "settings.json"
-    settings_file.write_text('{"user_currencies": ["USD"], "user_stocks": ["AAPL"]}', encoding="utf-8")
+    settings_file.write_text(
+        '{"user_currencies": ["USD"], "user_stocks": ["AAPL"]}', encoding="utf-8"
+    )
 
     settings = load_user_settings(settings_file)
     assert settings["user_currencies"] == ["USD"]
@@ -41,7 +43,15 @@ def test_load_user_settings(tmp_path):
 def test_load_transactions_real_file():
     """Реальный Excel читается, 7 колонок, все OK."""
     df = load_transactions()
-    assert list(df.columns) == ["date", "card", "amount", "cashback", "category", "description", "status"]
+    assert list(df.columns) == [
+        "date",
+        "card",
+        "amount",
+        "cashback",
+        "category",
+        "description",
+        "status",
+    ]
     assert (df["status"] == "OK").all()
     assert len(df) > 0
 
