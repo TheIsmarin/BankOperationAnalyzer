@@ -1,0 +1,35 @@
+[project]
+name = "bank-operation-analyzer"
+version = "0.1.0"
+description = "Курсовая работа: анализ банковских операций"
+authors = [
+    {name = "Ismarin", email = "ilha.2642@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "requests (>=2.31.0)",
+    "pandas (>=2.1.0)",
+    "openpyxl (>=3.1.0)",
+    "python-dotenv (>=1.0.0)",
+]
+
+[tool.poetry]
+packages = [{ include = "src" }]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+
+[tool.poetry.group.lint.dependencies]
+flake8 = "^6.1.0"
+black = "^23.9.0"
+isort = "^5.12.0"
+mypy = "^1.5.0"
+
+[tool.poetry.scripts]
+demo = "src.main:main"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,21 @@
+# Виртуальное окружение
+.venv/
+venv/
+
+# Секреты
+.env
+
+# Кэш Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.idea/
+.vscode/
+
+# Логи и отчёты (создаются при работе)
+*.log
+reports_output/
+htmlcov/
+.coverage
