@@ -149,7 +149,7 @@ def fetch_currency_rates(currencies: list[str]) -> list[dict[str, Any]]:
     result: list[dict[str, Any]] = []
 
     try:
-        response = requests.get(CURRENCY_URL, headers=headers, params=params, timeout=10)
+        response = requests.get(CURRENCY_URL, headers=headers, params=params, timeout=5)
         response.raise_for_status()
         data = response.json()
 
@@ -189,7 +189,7 @@ def fetch_stock_prices(stocks: list[str]) -> list[dict[str, Any]]:
                 STOCK_URL,
                 headers=headers,
                 params={"symbol": stock},
-                timeout=10,
+                timeout=5,
             )
             response.raise_for_status()
             data = response.json()
