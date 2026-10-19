@@ -5,12 +5,7 @@ from typing import Any
 
 import pandas as pd
 
-from src.utils import (
-    fetch_currency_rates,
-    fetch_stock_prices,
-    logger,
-    parse_datetime,
-)
+from src.utils import fetch_currency_rates, fetch_stock_prices, logger, parse_datetime
 
 # ----- Константы -----
 TOP_TRANSACTIONS_COUNT = 5
@@ -105,7 +100,9 @@ def _group_expenses(df: pd.DataFrame) -> dict[str, Any]:
     transfers = expenses[expenses["category"].isin([TRANSFERS_CATEGORY, CASH_CATEGORY])]
     main_df = expenses[~expenses["category"].isin([TRANSFERS_CATEGORY, CASH_CATEGORY])]
 
-    grouped = main_df.groupby("category")["abs_amount"].sum().sort_values(ascending=False)
+    grouped = (
+        main_df.groupby("category")["abs_amount"].sum().sort_values(ascending=False)
+    )
 
     main_list: list[dict[str, Any]] = []
     if len(grouped) > TOP_CATEGORIES_COUNT:
@@ -142,7 +139,9 @@ def _group_income(df: pd.DataFrame) -> dict[str, Any]:
         return {"total_amount": 0, "main": []}
 
     grouped = income.groupby("category")["amount"].sum().sort_values(ascending=False)
-    main_list = [{"category": cat, "amount": int(round(amt))} for cat, amt in grouped.items()]
+    main_list = [
+        {"category": cat, "amount": int(round(amt))} for cat, amt in grouped.items()
+    ]
 
     return {"total_amount": int(round(income["amount"].sum())), "main": main_list}
 
