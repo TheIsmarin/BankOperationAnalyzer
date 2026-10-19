@@ -21,7 +21,10 @@ def test_search_transactions_case_insensitive(sample_transactions):
 def test_search_transactions_substring(sample_transactions):
     """Поиск по подстроке в описании или категории."""
     result = search_transactions(sample_transactions, "колхоз")
-    assert all("колхоз" in tx["description"].lower() or "колхоз" in tx["category"].lower() for tx in result)
+    assert all(
+        "колхоз" in tx["description"].lower() or "колхоз" in tx["category"].lower()
+        for tx in result
+    )
 
 
 def test_search_transactions_empty_query(sample_transactions):
@@ -48,18 +51,21 @@ def test_search_phone_numbers(sample_transactions):
 )
 def test_search_phone_numbers_formats(description, should_find):
     """Поддерживаются разные форматы номеров."""
-    import pandas as pd
     from datetime import datetime
 
-    df = pd.DataFrame({
-        "date": [datetime(2021, 12, 1)],
-        "card": ["7197"],
-        "amount": [-100.0],
-        "cashback": [None],
-        "category": ["Связь"],
-        "description": [description],
-        "status": ["OK"],
-    })
+    import pandas as pd
+
+    df = pd.DataFrame(
+        {
+            "date": [datetime(2021, 12, 1)],
+            "card": ["7197"],
+            "amount": [-100.0],
+            "cashback": [None],
+            "category": ["Связь"],
+            "description": [description],
+            "status": ["OK"],
+        }
+    )
     result = search_phone_numbers(df)
     assert (len(result) == 1) == should_find
 

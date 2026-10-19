@@ -33,9 +33,7 @@ def _row_to_dict(row: pd.Series) -> dict[str, Any]:
     }
 
 
-def search_transactions(
-    transactions: pd.DataFrame, query: str
-) -> list[dict[str, Any]]:
+def search_transactions(transactions: pd.DataFrame, query: str) -> list[dict[str, Any]]:
     """
     Ищет транзакции по подстроке в description или category (без учёта регистра).
 
@@ -47,10 +45,9 @@ def search_transactions(
         return []
 
     q = query.lower()
-    mask = (
-        transactions["description"].astype(str).str.lower().str.contains(q, regex=False)
-        | transactions["category"].astype(str).str.lower().str.contains(q, regex=False)
-    )
+    mask = transactions["description"].astype(str).str.lower().str.contains(
+        q, regex=False
+    ) | transactions["category"].astype(str).str.lower().str.contains(q, regex=False)
     result = transactions.loc[mask]
 
     logger.info("Поиск '%s': найдено %d транзакций", query, len(result))
@@ -66,8 +63,10 @@ def search_phone_numbers(transactions: pd.DataFrame) -> list[dict[str, Any]]:
     :param transactions: датафрейм транзакций
     :return: список JSON-совместимых словарей
     """
-    mask = transactions["description"].astype(str).apply(
-        lambda d: bool(PHONE_PATTERN.search(d))
+    mask = (
+        transactions["description"]
+        .astype(str)
+        .apply(lambda d: bool(PHONE_PATTERN.search(d)))
     )
     result = transactions.loc[mask]
 
@@ -124,9 +123,13 @@ def profitable_cashback_categories(
         cat: int(round(amount * CASHBACK_PERCENT)) for cat, amount in grouped.items()
     }
 
-    top = dict(
-        Counter(cashback).most_common(TOP_CASHBACK_CATEGORIES)
-    )
+    top = dict(Counter(cashback).most_common(TOP_CASHBACK_CATEGORIES))
 
-    logger.info("Топ-%d категорий кешбэка за %02d.%d: %s", TOP_CASHBACK_CATEGORIES, month, year, top)
+    logger.info(
+        "Топ-%d категорий кешбэка за %02d.%d: %s",
+        TOP_CASHBACK_CATEGORIES,
+        month,
+        year,
+        top,
+    )
     return top

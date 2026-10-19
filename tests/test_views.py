@@ -30,9 +30,17 @@ def test_get_greeting(hour, expected):
 
 def test_main_page_structure(sample_transactions, sample_settings):
     """Главная: все блоки на месте, топ-5 ровно 5, даты dd.mm.yyyy."""
-    with patch("src.views.fetch_currency_rates", return_value=[{"currency": "USD", "rate": 73.21}]):
-        with patch("src.views.fetch_stock_prices", return_value=[{"stock": "AAPL", "price": 150.12}]):
-            result = main_page("2021-12-31 16:44:00", sample_transactions, sample_settings)
+    with patch(
+        "src.views.fetch_currency_rates",
+        return_value=[{"currency": "USD", "rate": 73.21}],
+    ):
+        with patch(
+            "src.views.fetch_stock_prices",
+            return_value=[{"stock": "AAPL", "price": 150.12}],
+        ):
+            result = main_page(
+                "2021-12-31 16:44:00", sample_transactions, sample_settings
+            )
 
     assert "greeting" in result
     assert "cards" in result
@@ -53,7 +61,9 @@ def test_main_page_cards(sample_transactions, sample_settings):
     """Карты: last_digits, total_spent, cashback = total/100."""
     with patch("src.views.fetch_currency_rates", return_value=[]):
         with patch("src.views.fetch_stock_prices", return_value=[]):
-            result = main_page("2021-12-31 16:44:00", sample_transactions, sample_settings)
+            result = main_page(
+                "2021-12-31 16:44:00", sample_transactions, sample_settings
+            )
 
     for card in result["cards"]:
         assert set(card.keys()) == {"last_digits", "total_spent", "cashback"}
@@ -67,7 +77,9 @@ def test_events_page_structure(sample_transactions, sample_settings, range_type)
     """События: все блоки на месте, суммы целые, топ-7 + Остальное."""
     with patch("src.views.fetch_currency_rates", return_value=[]):
         with patch("src.views.fetch_stock_prices", return_value=[]):
-            result = events_page("2021-12-31 16:44:00", sample_transactions, sample_settings, range_type)
+            result = events_page(
+                "2021-12-31 16:44:00", sample_transactions, sample_settings, range_type
+            )
 
     assert "expenses" in result
     assert "income" in result
